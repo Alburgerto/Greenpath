@@ -398,6 +398,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: well.001
       objectReference: {fileID: 0}
+    - target: {fileID: 137980, guid: 38d61c06074002f4abcdf441b5283261, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 499834, guid: 38d61c06074002f4abcdf441b5283261, type: 3}
       propertyPath: m_LocalPosition.x
       value: 525.48566
@@ -1224,6 +1228,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f76d5663e3855bc449771b98f3c18f68, type: 3}
+--- !u!1 &853125458 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: f76d5663e3855bc449771b98f3c18f68,
+    type: 3}
+  m_PrefabInstance: {fileID: 853028850}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &853125459
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853125458}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.2767556, y: 1.0696169, z: 3.105272}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &853423474 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400000, guid: f76d5663e3855bc449771b98f3c18f68,
+    type: 3}
+  m_PrefabInstance: {fileID: 853028850}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &910567049
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8435,7 +8464,7 @@ Transform:
   - {fileID: 742261175}
   - {fileID: 1065313897}
   - {fileID: 1436110118}
-  - {fileID: 1963465850}
+  - {fileID: 853423474}
   - {fileID: 1356566207}
   - {fileID: 1419173422}
   - {fileID: 701727589}
@@ -8746,12 +8775,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db61bf80eb5d3ff44b9ee201e5da1d16, type: 3}
---- !u!4 &1963465850 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400000, guid: f76d5663e3855bc449771b98f3c18f68,
-    type: 3}
-  m_PrefabInstance: {fileID: 853028850}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1965097992
 GameObject:
   m_ObjectHideFlags: 0
