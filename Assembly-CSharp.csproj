@@ -160,7 +160,9 @@
     <Compile Include="Assets\Interactable.cs" />
     <Compile Include="Assets\Interaction.cs" />
     <Compile Include="Assets\Inventory.cs" />
+    <Compile Include="Assets\UITextPosition.cs" />
     <None Include="Assets\Asset packages\GreenForest\PostProcessing\Resources\Shaders\DepthOfField.shader" />
+    <None Include="Assets\Asset packages\Packs\BirchPackVol1\Works For Fun.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\Asset packages\AdventureForge\Read me.txt" />
@@ -223,6 +225,7 @@
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
     <None Include="Assets\Asset packages\Samples\Terrain Tools\0.1.0-preview\Terrain Assets\ThirdPartyNotices.txt" />
     <None Include="Assets\Asset packages\GreenForest\PostProcessing\Editor Resources\Monitors\VectorscopeRender.shader" />
+    <None Include="Assets\Asset packages\FantasyEnvironments\Environments\README.txt" />
     <None Include="Assets\Asset packages\GreenForest\PostProcessing\Resources\Shaders\EyeAdaptation.shader" />
     <None Include="Assets\Asset packages\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
     <None Include="Assets\Asset packages\Standard Assets\Environment\Water\Water4\Shaders\WaterInclude.cginc" />

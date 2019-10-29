@@ -7,6 +7,7 @@ public class Interactable : MonoBehaviour
 {
     public UnityEvent m_interaction;
     public UnityEvent m_stopInteraction;
+    public string m_text;
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +21,7 @@ public class Interactable : MonoBehaviour
         
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
