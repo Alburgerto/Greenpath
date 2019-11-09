@@ -2,10 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Ingredient")]
-public class Ingredient : ScriptableObject
+public class Ingredient : Interactable
 {
     public string m_name;
     public string m_description;
-    public bool m_edible;
+    public Inventory m_inventory;
+
+    private void Start()
+    {
+        m_inventory = m_inventory.GetComponent<Inventory>();
+    }
+
+    public override void Interact()
+    {
+        m_inventory.AddIngredient(this);
+  //      m_interactionUI.SetActive(false);
+    //    Destroy(this);
+    }
+
 }

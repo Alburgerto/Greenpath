@@ -9,8 +9,8 @@ public class Interaction : MonoBehaviour
     public GameObject m_interactionUI;
     public Inventory m_inventory; // Here we attach gameObject having an Inventory script as component
     public LayerMask m_interactableLayer;
-    public float m_interactionDistance = 6;
-    public bool m_interactionOngoing = false;
+    public bool m_coroutineRunning;
+    [HideInInspector] public float m_interactionDistance { get; private set; }
 
     private GameObject m_interactionObject;
     private Ray m_ray;
@@ -18,24 +18,21 @@ public class Interaction : MonoBehaviour
 
     private void Start()
     {
+        m_coroutineRunning = false;
         m_inventory = m_inventory.GetComponent<Inventory>();
     }
     
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && m_interactionObject != null && m_interactionObject.CompareTag("Ingredient"))
+        if (Input.GetKeyDown(KeyCode.E) && m_interactionObject != null)
         {
-            Ingredient ingredient = m_interactionObject.GetComponent<Interactable>().m_ingredient;
-            m_inventory.AddIngredient(ingredient);
-
-            Destroy(m_interactionObject.gameObject);
-            m_interactionUI.SetActive(false);
+            m_interactionObject.GetComponent<Interactable>().Interact();
+            m_interactionObject = null;
         }
     }
 
     public void OnInteractionZone()
     {
-        
         StartCoroutine("Interacting");
     }
 
@@ -43,6 +40,7 @@ public class Interaction : MonoBehaviour
     // While this coroutine is running, rays will be cast to find an interactable object
     private IEnumerator Interacting()
     {
+        m_coroutineRunning = true;
         while (true)
         {
             m_ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); // Middle point in the game screen
@@ -52,7 +50,8 @@ public class Interaction : MonoBehaviour
 
                 m_interactionUI.GetComponent<UITextPosition>().m_object = m_interactionObject;
                 m_interactionUI.SetActive(true);
-                m_interactionUI.GetComponentInChildren<TextMeshProUGUI>().text = m_interactionObject.GetComponent<Interactable>().m_text;
+                Interactable interactable = m_interactionObject.GetComponent<Interactable>();
+                m_interactionUI.GetComponentInChildren<TextMeshProUGUI>().text = interactable.m_textUI;
             }
             else
             {
@@ -62,14 +61,16 @@ public class Interaction : MonoBehaviour
         }
     }
  
-
     public void OnInteractionZoneExit()
     {
-        m_interactionOngoing = false;
-
-        m_interactionObject = null;
-        m_interactionUI.SetActive(false);
-        StopCoroutine("Interacting");
+        Collider[] intersectingColliders = Physics.OverlapSphere(transform.position, GetComponent<SphereCollider>().radius, m_interactableLayer, QueryTriggerInteraction.Collide);
+        if (intersectingColliders.Length == 0)
+        {
+            m_interactionObject = null;
+            m_interactionUI.SetActive(false);
+            m_coroutineRunning = false;
+            StopCoroutine("Interacting");
+        }
     }
 
 }

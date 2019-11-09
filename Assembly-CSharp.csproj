@@ -156,6 +156,7 @@
     <Compile Include="Assets\Asset packages\Standard Assets\Utility\TimedObjectDestructor.cs" />
     <Compile Include="Assets\Asset packages\Standard Assets\Utility\WaypointCircuit.cs" />
     <Compile Include="Assets\Asset packages\Standard Assets\Utility\WaypointProgressTracker.cs" />
+    <Compile Include="Assets\Bonfire.cs" />
     <Compile Include="Assets\Ingredient.cs" />
     <Compile Include="Assets\Interactable.cs" />
     <Compile Include="Assets\Interaction.cs" />
