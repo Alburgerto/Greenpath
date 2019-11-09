@@ -7,24 +7,14 @@ public class Interactable : MonoBehaviour
 {
     public UnityEvent m_interaction;
     public UnityEvent m_stopInteraction;
+    public Ingredient m_ingredient;
     public string m_text;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            m_stopInteraction.Invoke();
             m_interaction.Invoke();
         }
     }
