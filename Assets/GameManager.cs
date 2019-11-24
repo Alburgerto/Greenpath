@@ -1,0 +1,22 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class GameManager : MonoBehaviour
+{
+    public enum GameState { Menu, Game, Pause }
+
+    public GameState m_state;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        m_state = GameState.Game;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+}

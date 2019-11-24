@@ -7,19 +7,24 @@ using UnityEngine;
 public class Interaction : MonoBehaviour
 {
     public GameObject m_interactionUI;
+    public GameObject m_clipboard;
     public Inventory m_inventory; // Here we attach gameObject having an Inventory script as component
     public LayerMask m_interactableLayer;
-    public bool m_coroutineRunning;
-    [HideInInspector] public float m_interactionDistance { get; private set; }
+    public float m_interactionDistance;
+    [HideInInspector] public bool m_coroutineRunning;
 
+    private Animator m_clipboardAnimator;
     private GameObject m_interactionObject;
-    private Ray m_ray;
-    private RaycastHit m_rayHit;
+    private UITextPosition m_textScript;
+    private TextMeshProUGUI m_panelText;
 
     private void Start()
     {
         m_coroutineRunning = false;
-        m_inventory = m_inventory.GetComponent<Inventory>();
+        m_inventory  = m_inventory.GetComponent<Inventory>();
+        m_clipboardAnimator = m_clipboard.GetComponent<Animator>();
+        m_textScript = m_interactionUI.GetComponent<UITextPosition>();
+        m_panelText  = m_interactionUI.GetComponentInChildren<TextMeshProUGUI>();
     }
     
     void Update()
@@ -28,6 +33,10 @@ public class Interaction : MonoBehaviour
         {
             m_interactionObject.GetComponent<Interactable>().Interact();
             m_interactionObject = null;
+        } 
+        else if (Input.GetKeyDown(KeyCode.Tab) && m_clipboardAnimator != null)
+        {
+            m_clipboardAnimator.SetBool("Showing", !m_clipboardAnimator.GetBool("Showing"));
         }
     }
 
@@ -41,20 +50,25 @@ public class Interaction : MonoBehaviour
     private IEnumerator Interacting()
     {
         m_coroutineRunning = true;
+        Ray ray;
+        RaycastHit rayHit;
         while (true)
         {
-            m_ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); // Middle point in the game screen
-            if (Physics.Raycast(m_ray, out m_rayHit, 5, m_interactableLayer, QueryTriggerInteraction.Collide))
+            ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); // Middle point in the game screen
+            if (Physics.Raycast(ray, out rayHit, m_interactionDistance, m_interactableLayer, QueryTriggerInteraction.Collide))
             {
-                m_interactionObject = m_rayHit.collider.gameObject;
+                if (m_interactionObject == rayHit.collider.gameObject) { yield return new WaitForSeconds(0.05f); }
 
-                m_interactionUI.GetComponent<UITextPosition>().m_object = m_interactionObject;
+                m_interactionObject = rayHit.collider.gameObject;
+                m_textScript.m_object = m_interactionObject;
+                m_textScript.ActivateUI(); // So that it's a seamless transition to a new object's position
+                Interactable interactable = m_interactionObject?.GetComponent<Interactable>();
+                m_panelText.text = interactable?.m_textUI ?? "";
                 m_interactionUI.SetActive(true);
-                Interactable interactable = m_interactionObject.GetComponent<Interactable>();
-                m_interactionUI.GetComponentInChildren<TextMeshProUGUI>().text = interactable.m_textUI;
             }
             else
             {
+                m_interactionObject = null;
                 m_interactionUI.SetActive(false);
             }
             yield return new WaitForSeconds(0.05f);
@@ -64,7 +78,7 @@ public class Interaction : MonoBehaviour
     public void OnInteractionZoneExit()
     {
         Collider[] intersectingColliders = Physics.OverlapSphere(transform.position, GetComponent<SphereCollider>().radius, m_interactableLayer, QueryTriggerInteraction.Collide);
-        if (intersectingColliders.Length == 0)
+        if (intersectingColliders.Length == 1)
         {
             m_interactionObject = null;
             m_interactionUI.SetActive(false);

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+// Interactable objects need to add script (Interactable/Ingredient/etc) AND set layer to "Interactable"
 public abstract class Interactable : MonoBehaviour
 {
     public delegate void InteractingDelegate();
@@ -12,7 +13,8 @@ public abstract class Interactable : MonoBehaviour
     private UnityEvent m_stopInteraction = new UnityEvent();
     public string m_textUI;
 
-    private void Start()
+    // Protected as children to this class need to execute this as well
+    protected void Start()
     {
         Interaction interactionMethod = GameObject.FindGameObjectWithTag("Player").GetComponent<Interaction>();
         InteractingDelegate interactingDelegate = new InteractingDelegate(interactionMethod.OnInteractionZone);

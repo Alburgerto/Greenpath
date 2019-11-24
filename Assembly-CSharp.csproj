@@ -157,10 +157,12 @@
     <Compile Include="Assets\Asset packages\Standard Assets\Utility\WaypointCircuit.cs" />
     <Compile Include="Assets\Asset packages\Standard Assets\Utility\WaypointProgressTracker.cs" />
     <Compile Include="Assets\Bonfire.cs" />
+    <Compile Include="Assets\GameManager.cs" />
     <Compile Include="Assets\Ingredient.cs" />
     <Compile Include="Assets\Interactable.cs" />
     <Compile Include="Assets\Interaction.cs" />
     <Compile Include="Assets\Inventory.cs" />
+    <Compile Include="Assets\Recipe.cs" />
     <Compile Include="Assets\UITextPosition.cs" />
     <None Include="Assets\Asset packages\GreenForest\PostProcessing\Resources\Shaders\DepthOfField.shader" />
     <None Include="Assets\Asset packages\Packs\BirchPackVol1\Works For Fun.txt" />
@@ -220,6 +222,7 @@
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\Asset packages\GreenForest\PostProcessing\Resources\Shaders\ScreenSpaceRaytrace.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\Asset packages\Clipboard\ReadMe\ReadMe.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\Asset packages\GreenForest\PostProcessing\Resources\Shaders\Bloom.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />

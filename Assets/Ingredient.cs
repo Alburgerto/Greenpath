@@ -10,14 +10,17 @@ public class Ingredient : Interactable
 
     private void Start()
     {
+        base.Start();
         m_inventory = m_inventory.GetComponent<Inventory>();
     }
 
     public override void Interact()
     {
         m_inventory.AddIngredient(this);
-  //      m_interactionUI.SetActive(false);
-    //    Destroy(this);
+        GameObject.FindGameObjectWithTag("Player").GetComponent<Interaction>().OnInteractionZoneExit();
+        transform.position = new Vector3(1000, 1000, 1000);
+        //Destroy(gameObject);
+
     }
 
 }
