@@ -36,6 +36,10 @@ public class Interaction : MonoBehaviour
         } 
         else if (Input.GetKeyDown(KeyCode.Tab) && m_clipboardAnimator != null)
         {
+            if (!m_clipboard.activeSelf)
+            {
+                m_clipboard.SetActive(true);
+            }
             m_clipboardAnimator.SetBool("Showing", !m_clipboardAnimator.GetBool("Showing"));
         }
     }
