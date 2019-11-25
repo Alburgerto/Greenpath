@@ -20,11 +20,11 @@ public class Interaction : MonoBehaviour
 
     private void Start()
     {
-        m_coroutineRunning = false;
-        m_inventory  = m_inventory.GetComponent<Inventory>();
+        m_coroutineRunning  = false;
         m_clipboardAnimator = m_clipboard.GetComponent<Animator>();
-        m_textScript = m_interactionUI.GetComponent<UITextPosition>();
-        m_panelText  = m_interactionUI.GetComponentInChildren<TextMeshProUGUI>();
+        m_inventory         = m_inventory.GetComponent<Inventory>();
+        m_textScript        = m_interactionUI.GetComponent<UITextPosition>();
+        m_panelText         = m_interactionUI.GetComponentInChildren<TextMeshProUGUI>();
     }
     
     void Update()

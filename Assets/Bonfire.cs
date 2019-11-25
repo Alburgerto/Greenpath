@@ -8,6 +8,9 @@ public class Bonfire : Interactable
 
     public override void Interact()
     {
-        m_recipeBook.SetActive(true);
+        if (m_recipeBook != null)
+        {
+            m_recipeBook.SetActive(true);
+        }
     }
 }
