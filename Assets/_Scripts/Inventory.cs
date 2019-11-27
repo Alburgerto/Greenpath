@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 // List of ingredients as well as recipes
 public class Inventory : MonoBehaviour
@@ -15,18 +16,27 @@ public class Inventory : MonoBehaviour
     public TextMeshProUGUI m_slashes;
     public TextMeshProUGUI m_requiredQuantities;
 
+    private bool m_textAnimating;
     private int m_currentRecipeIndex;
     private Recipe m_currentRecipe { get { return m_recipes[m_currentRecipeIndex]; } }
     private Dictionary<string, int> m_inventory = new Dictionary<string, int>(); // All items (ingredients for now) collected and available to use
 
+    private void Awake()
+    {
+        m_textAnimating = false;
+        m_currentRecipeIndex = 0;
+    }
+
     private void Start()
     {
-        m_currentRecipeIndex = 0;
         SetupRecipeGUI();
     }
 
     private void Update()
     {
+        if (m_textAnimating) { return; }
+
+        int newRecipeIndex = m_currentRecipeIndex;
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             if (m_currentRecipeIndex == 0)
@@ -37,7 +47,6 @@ public class Inventory : MonoBehaviour
             {
                 m_currentRecipeIndex--;
             }
-            SetupRecipeGUI();
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
@@ -49,13 +58,27 @@ public class Inventory : MonoBehaviour
             {
                 m_currentRecipeIndex++;
             }
-            SetupRecipeGUI();
+        }
+
+        // If another recipe was selected
+        if (newRecipeIndex != m_currentRecipeIndex)
+        {
+            StartCoroutine(FadeOutText());
         }
     }
 
     public void SetupRecipeGUI()
     {
         ResetGUI();
+        Color32 color = m_name.color;
+        color.a = 0;
+
+        m_name.color = color;
+        m_description.color = color;
+        m_ingredients.color = color;
+        m_availableQuantities.color = color;
+        m_slashes.color = color;
+        m_requiredQuantities.color = color;
 
         m_name.text = m_currentRecipe.m_name;
         m_description.text = m_currentRecipe.m_description;
@@ -71,6 +94,7 @@ public class Inventory : MonoBehaviour
             m_slashes.text += "/" + Environment.NewLine;
             m_requiredQuantities.text += m_currentRecipe.m_ingredientCount[i] + Environment.NewLine;
         }
+        StartCoroutine(FadeInText());
     }
 
     public void UpdateAvailableIngredients()
@@ -110,6 +134,51 @@ public class Inventory : MonoBehaviour
       //  Debug.Log($"{m_inventory[l_ingredient.m_name]} items of type {l_ingredient.m_name}");
     }
 
+    // Input para cambiar de página -> StartCoroutine(FadeInText()); -> Cambiar de texto
+    public IEnumerator FadeInText()
+    {
+        m_textAnimating = true;
+        Color32 color = m_name.color;
+        color.a = 0;
+        while (color.a < 255)
+        {
+            color.a += 17;
+
+            m_name.color = color;
+            m_description.color = color;
+            m_ingredients.color = color;
+            m_availableQuantities.color = color;
+            m_slashes.color = color;
+            m_requiredQuantities.color = color;
+
+            yield return new WaitForSeconds(0.01f);
+        }
+        // actualizar texto
+        m_textAnimating = false;
+    }
+
+    public IEnumerator FadeOutText()
+    {
+        m_textAnimating = true;
+        Color32 color = m_name.color;
+        color.a = 255;
+        while (color.a > 0)
+        {
+            color.a -= 17;
+
+            m_name.color = color;
+            m_description.color = color;
+            m_ingredients.color = color;
+            m_availableQuantities.color = color;
+            m_slashes.color = color;
+            m_requiredQuantities.color = color;
+
+            yield return new WaitForSeconds(0.01f);
+        }
+        m_textAnimating = false;
+        SetupRecipeGUI();
+    }
+
     public void Cook()
     {
         int ingredientMatch = 0;
@@ -142,6 +211,64 @@ public class Inventory : MonoBehaviour
             }
         }
     }
+
+    //public IEnumerator TextAnimation()
+    //{
+    //    m_textAnimating = true;
+
+    //    TMP_TextInfo name = m_name.textInfo;
+    //    TMP_TextInfo description = m_description.textInfo;
+    //    TMP_TextInfo ingredients = m_ingredients.textInfo;
+    //    TMP_TextInfo availableQuantities = m_availableQuantities.textInfo;
+    //    TMP_TextInfo slashes = m_slashes.textInfo;
+    //    TMP_TextInfo requiredQuantities = m_requiredQuantities.textInfo;
+
+    //    List<TMP_TextInfo> textList = new List<TMP_TextInfo> { name, description, ingredients, availableQuantities, slashes, requiredQuantities };
+    //    List<int> animatedChars = new List<int>();
+    //    int totalCharCount = name.characterCount + description.characterCount + ingredients.characterCount + availableQuantities.characterCount + slashes.characterCount + requiredQuantities.characterCount;
+    //    int i = 0, sizeAcum = 0, stringPos = 0;
+
+    //    while (i < totalCharCount)
+    //    {
+    //        int charPosition = Random.Range(0, totalCharCount);
+    //        if (animatedChars.Contains(charPosition)) { continue; }
+    //        sizeAcum = 0;
+    //        stringPos = 0;
+    //        while (stringPos < textList.Count)
+    //        {
+    //            sizeAcum += textList[stringPos].characterCount;
+    //            if (sizeAcum >= charPosition)
+    //            {
+    //                int localPosition = sizeAcum - charPosition;
+    
+    //                TMP_TextInfo text = textList[stringPos];
+    //                TMP_CharacterInfo character = text.characterInfo[localPosition];
+
+    //                // Character already animated
+    //                if (character.color.a != 255)
+    //                {
+    //                    break;
+    //                }
+
+    //                while (character.color.a >= 0)
+    //                {
+    //                    character.color.a -= 75;
+    //                    yield return new WaitForSeconds(0.00001f);
+    //                }
+    //                animatedChars.Add(charPosition);
+    //                break;
+    //            }
+    //            else
+    //            {
+    //                ++stringPos;
+    //            }
+    //        }
+    //        i++;
+    //    }
+
+    //    SetupRecipeGUI();
+    //    m_textAnimating = false;
+    //}
 
 
 }
