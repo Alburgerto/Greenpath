@@ -19,6 +19,7 @@ public class Inventory : MonoBehaviour
     
     private bool m_textAnimating;
     private int m_currentRecipeIndex;
+    private CanvasGroup m_canvasGroup;
     private Recipe m_currentRecipe { get { return m_recipes[m_currentRecipeIndex]; } }
     private Dictionary<string, int> m_inventory = new Dictionary<string, int>(); // All items (ingredients for now) collected and available to use
 
@@ -26,6 +27,7 @@ public class Inventory : MonoBehaviour
     {
         m_textAnimating = false;
         m_currentRecipeIndex = 0;
+        m_canvasGroup = m_name.GetComponentInParent<CanvasGroup>();
     }
 
     private void Start()
@@ -71,15 +73,6 @@ public class Inventory : MonoBehaviour
     public void SetupRecipeGUI()
     {
         ResetGUI();
-        Color32 color = m_name.color;
-        color.a = 0;
-
-        m_name.color = color;
-        m_description.color = color;
-        m_ingredients.color = color;
-        m_availableQuantities.color = color;
-        m_slashes.color = color;
-        m_requiredQuantities.color = color;
 
         m_name.text = m_currentRecipe.m_name;
         m_description.text = m_currentRecipe.m_description;
@@ -138,36 +131,19 @@ public class Inventory : MonoBehaviour
     public IEnumerator FadeText(bool m_fadeIn)
     {
         m_textAnimating = true;
-        Color color = m_name.color;
         if (m_fadeIn)
         {
-            color.a = 0;
             for (float i = 0; i < 1; i += Time.deltaTime * m_fadeSpeed)
             {
-                color = new Color(0, 0, 0, i);
-                m_name.color = color;
-                m_description.color = color;
-                m_ingredients.color = color;
-                m_availableQuantities.color = color;
-                m_slashes.color = color;
-                m_requiredQuantities.color = color;
-
+                m_canvasGroup.alpha = i;
                 yield return null;
             }
         }
         else // fade out
         {
-            color.a = 1;
             for (float i = 1; i > 0; i -= Time.deltaTime * m_fadeSpeed)
             {
-                color = new Color(0, 0, 0, i);
-                m_name.color = color;
-                m_description.color = color;
-                m_ingredients.color = color;
-                m_availableQuantities.color = color;
-                m_slashes.color = color;
-                m_requiredQuantities.color = color;
-
+                m_canvasGroup.alpha = i;
                 yield return null;
             }
             SetupRecipeGUI();
