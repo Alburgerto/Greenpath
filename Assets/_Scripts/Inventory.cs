@@ -15,7 +15,8 @@ public class Inventory : MonoBehaviour
     public TextMeshProUGUI m_availableQuantities;
     public TextMeshProUGUI m_slashes;
     public TextMeshProUGUI m_requiredQuantities;
-
+    public float m_fadeSpeed;
+    
     private bool m_textAnimating;
     private int m_currentRecipeIndex;
     private Recipe m_currentRecipe { get { return m_recipes[m_currentRecipeIndex]; } }
@@ -63,7 +64,7 @@ public class Inventory : MonoBehaviour
         // If another recipe was selected
         if (newRecipeIndex != m_currentRecipeIndex)
         {
-            StartCoroutine(FadeOutText());
+            StartCoroutine(FadeText(false));
         }
     }
 
@@ -94,7 +95,7 @@ public class Inventory : MonoBehaviour
             m_slashes.text += "/" + Environment.NewLine;
             m_requiredQuantities.text += m_currentRecipe.m_ingredientCount[i] + Environment.NewLine;
         }
-        StartCoroutine(FadeInText());
+        StartCoroutine(FadeText(true));
     }
 
     public void UpdateAvailableIngredients()
@@ -134,49 +135,44 @@ public class Inventory : MonoBehaviour
       //  Debug.Log($"{m_inventory[l_ingredient.m_name]} items of type {l_ingredient.m_name}");
     }
 
-    // Input para cambiar de página -> StartCoroutine(FadeInText()); -> Cambiar de texto
-    public IEnumerator FadeInText()
+    public IEnumerator FadeText(bool m_fadeIn)
     {
         m_textAnimating = true;
-        Color32 color = m_name.color;
-        color.a = 0;
-        while (color.a < 255)
+        Color color = m_name.color;
+        if (m_fadeIn)
         {
-            color.a += 17;
+            color.a = 0;
+            for (float i = 0; i < 1; i += Time.deltaTime * m_fadeSpeed)
+            {
+                color = new Color(0, 0, 0, i);
+                m_name.color = color;
+                m_description.color = color;
+                m_ingredients.color = color;
+                m_availableQuantities.color = color;
+                m_slashes.color = color;
+                m_requiredQuantities.color = color;
 
-            m_name.color = color;
-            m_description.color = color;
-            m_ingredients.color = color;
-            m_availableQuantities.color = color;
-            m_slashes.color = color;
-            m_requiredQuantities.color = color;
-
-            yield return new WaitForSeconds(0.01f);
+                yield return null;
+            }
         }
-        // actualizar texto
-        m_textAnimating = false;
-    }
-
-    public IEnumerator FadeOutText()
-    {
-        m_textAnimating = true;
-        Color32 color = m_name.color;
-        color.a = 255;
-        while (color.a > 0)
+        else // fade out
         {
-            color.a -= 17;
+            color.a = 1;
+            for (float i = 1; i > 0; i -= Time.deltaTime * m_fadeSpeed)
+            {
+                color = new Color(0, 0, 0, i);
+                m_name.color = color;
+                m_description.color = color;
+                m_ingredients.color = color;
+                m_availableQuantities.color = color;
+                m_slashes.color = color;
+                m_requiredQuantities.color = color;
 
-            m_name.color = color;
-            m_description.color = color;
-            m_ingredients.color = color;
-            m_availableQuantities.color = color;
-            m_slashes.color = color;
-            m_requiredQuantities.color = color;
-
-            yield return new WaitForSeconds(0.01f);
+                yield return null;
+            }
+            SetupRecipeGUI();
         }
         m_textAnimating = false;
-        SetupRecipeGUI();
     }
 
     public void Cook()
