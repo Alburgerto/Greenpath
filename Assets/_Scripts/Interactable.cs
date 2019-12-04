@@ -19,7 +19,6 @@ public abstract class Interactable : MonoBehaviour
         Interaction interactionMethod = GameObject.FindGameObjectWithTag("Player").GetComponent<Interaction>();
         InteractingDelegate interactingDelegate = new InteractingDelegate(interactionMethod.OnInteractionZone);
         InteractingDelegate exitInteractingDelegate = new InteractingDelegate(interactionMethod.OnInteractionZoneExit);
-        
         m_interaction.AddListener(delegate { interactingDelegate(); });
         m_stopInteraction.AddListener(delegate { exitInteractingDelegate(); });
     }

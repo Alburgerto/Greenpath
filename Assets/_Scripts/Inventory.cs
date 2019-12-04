@@ -15,8 +15,8 @@ public class Inventory : MonoBehaviour
     public TextMeshProUGUI m_availableQuantities;
     public TextMeshProUGUI m_slashes;
     public TextMeshProUGUI m_requiredQuantities;
-    public float m_fadeSpeed;
-    
+    public float m_fadeTime;
+
     private bool m_textAnimating;
     private int m_currentRecipeIndex;
     private CanvasGroup m_canvasGroup;
@@ -40,7 +40,7 @@ public class Inventory : MonoBehaviour
         if (m_textAnimating) { return; }
 
         int newRecipeIndex = m_currentRecipeIndex;
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.Mouse0) || Input.mouseScrollDelta.y < 0)
         {
             if (m_currentRecipeIndex == 0)
             {
@@ -51,7 +51,7 @@ public class Inventory : MonoBehaviour
                 m_currentRecipeIndex--;
             }
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.Mouse1) || Input.mouseScrollDelta.y > 0)
         {
             if (m_currentRecipeIndex == m_recipes.Count - 1)
             {
@@ -61,6 +61,10 @@ public class Inventory : MonoBehaviour
             {
                 m_currentRecipeIndex++;
             }
+        }
+        else if (Input.GetKeyDown(KeyCode.F))
+        {
+            Cook();
         }
 
         // If another recipe was selected
@@ -131,19 +135,22 @@ public class Inventory : MonoBehaviour
     public IEnumerator FadeText(bool m_fadeIn)
     {
         m_textAnimating = true;
+        float time = 0;
         if (m_fadeIn)
         {
-            for (float i = 0; i < 1; i += Time.deltaTime * m_fadeSpeed)
+            while (time < m_fadeTime)
             {
-                m_canvasGroup.alpha = i;
+                m_canvasGroup.alpha = Mathf.Lerp(0f, 1f, time / m_fadeTime);
+                time += Time.deltaTime;
                 yield return null;
             }
         }
         else // fade out
         {
-            for (float i = 1; i > 0; i -= Time.deltaTime * m_fadeSpeed)
+            while (time < m_fadeTime)
             {
-                m_canvasGroup.alpha = i;
+                m_canvasGroup.alpha = Mathf.Lerp(1f, 0f, time / m_fadeTime);
+                time += Time.deltaTime;
                 yield return null;
             }
             SetupRecipeGUI();
@@ -151,96 +158,32 @@ public class Inventory : MonoBehaviour
         m_textAnimating = false;
     }
 
-    public void Cook()
+    public IEnumerator CookRecipe()
     {
-        int ingredientMatch = 0;
-        foreach (var recipe in m_recipes)
-        {
-            for (int i = 0; i < recipe.m_ingredients.Count; ++i)
-            {
-                string ingredientName = recipe.m_ingredients[i].m_name;
-                if (m_inventory.ContainsKey(ingredientName) && m_inventory[ingredientName] == recipe.m_ingredientCount[i])
-                {
-                    ingredientMatch++;
-                }
-            }
-            if (ingredientMatch == recipe.m_ingredients.Count)
-            {
-                string log = $"Can cook a {recipe.m_name} with ";
-                for (int i = 0; i < recipe.m_ingredients.Count; i++)
-                {
-                    log += $"{recipe.m_ingredientCount[i]} items of type {recipe.m_ingredients[i].m_name}";
-                    if (i == recipe.m_ingredients.Count - 1)
-                    {
-                        log += ".";
-                    } else
-                    {
-                        log += ", ";
-                    }
-                }
-                Debug.Log(log);
-                
-            }
-        }
+        Debug.Log("YESSS BEIBI HE COCINADO ALGO");
+        yield return null;
     }
 
-    //public IEnumerator TextAnimation()
-    //{
-    //    m_textAnimating = true;
+    public void Cook()
+    {
+        bool success = true;
+        Ingredient ingredient;
+        int ingredientQuantity;
+        for (int i = 0; i < m_currentRecipe.m_ingredients.Count; ++i)
+        {
+            ingredient = m_currentRecipe.m_ingredients[i];
+            ingredientQuantity = m_currentRecipe.m_ingredientCount[i];
+            if (!(m_inventory.TryGetValue(ingredient.m_name, out int requiredQuantity) && requiredQuantity == ingredientQuantity))
+            {
+                success = false;
+            }
+        }
 
-    //    TMP_TextInfo name = m_name.textInfo;
-    //    TMP_TextInfo description = m_description.textInfo;
-    //    TMP_TextInfo ingredients = m_ingredients.textInfo;
-    //    TMP_TextInfo availableQuantities = m_availableQuantities.textInfo;
-    //    TMP_TextInfo slashes = m_slashes.textInfo;
-    //    TMP_TextInfo requiredQuantities = m_requiredQuantities.textInfo;
+        if (success)
+        {
+            StartCoroutine(CookRecipe());
+        }
 
-    //    List<TMP_TextInfo> textList = new List<TMP_TextInfo> { name, description, ingredients, availableQuantities, slashes, requiredQuantities };
-    //    List<int> animatedChars = new List<int>();
-    //    int totalCharCount = name.characterCount + description.characterCount + ingredients.characterCount + availableQuantities.characterCount + slashes.characterCount + requiredQuantities.characterCount;
-    //    int i = 0, sizeAcum = 0, stringPos = 0;
-
-    //    while (i < totalCharCount)
-    //    {
-    //        int charPosition = Random.Range(0, totalCharCount);
-    //        if (animatedChars.Contains(charPosition)) { continue; }
-    //        sizeAcum = 0;
-    //        stringPos = 0;
-    //        while (stringPos < textList.Count)
-    //        {
-    //            sizeAcum += textList[stringPos].characterCount;
-    //            if (sizeAcum >= charPosition)
-    //            {
-    //                int localPosition = sizeAcum - charPosition;
+    }
     
-    //                TMP_TextInfo text = textList[stringPos];
-    //                TMP_CharacterInfo character = text.characterInfo[localPosition];
-
-    //                // Character already animated
-    //                if (character.color.a != 255)
-    //                {
-    //                    break;
-    //                }
-
-    //                while (character.color.a >= 0)
-    //                {
-    //                    character.color.a -= 75;
-    //                    yield return new WaitForSeconds(0.00001f);
-    //                }
-    //                animatedChars.Add(charPosition);
-    //                break;
-    //            }
-    //            else
-    //            {
-    //                ++stringPos;
-    //            }
-    //        }
-    //        i++;
-    //    }
-
-    //    SetupRecipeGUI();
-    //    m_textAnimating = false;
-    //}
-
-
 }

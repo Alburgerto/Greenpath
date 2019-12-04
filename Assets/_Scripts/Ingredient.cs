@@ -8,7 +8,7 @@ public class Ingredient : Interactable
     public string m_description;
     public Inventory m_inventory;
 
-    private void Start()
+    private new void Start()
     {
         base.Start();
         m_inventory = m_inventory.GetComponent<Inventory>();

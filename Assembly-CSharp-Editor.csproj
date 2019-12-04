@@ -102,6 +102,16 @@
     <Compile Include="Assets\_AssetPacks\Standard Assets\Editor\Water\Water4\SpecularLightingEditor.cs" />
     <Compile Include="Assets\_AssetPacks\Standard Assets\Editor\Water\Water4\WaterBaseEditor.cs" />
     <Compile Include="Assets\_AssetPacks\Standard Assets\Editor\Water\Water4\WaterEditorUtility.cs" />
+    <Compile Include="Assets\Fantasy Adventure Environment\Scripts\Editor\CliffAppearanceInspector.cs" />
+    <Compile Include="Assets\Fantasy Adventure Environment\Scripts\Editor\FAE_Core.cs" />
+    <Compile Include="Assets\Fantasy Adventure Environment\Scripts\Editor\FoliageShaderGUI.cs" />
+    <Compile Include="Assets\Fantasy Adventure Environment\Scripts\Editor\GrassShaderGUI.cs" />
+    <Compile Include="Assets\Fantasy Adventure Environment\Scripts\Editor\GUIHelper.cs" />
+    <Compile Include="Assets\Fantasy Adventure Environment\Scripts\Editor\PigmentMapGeneratorInspector.cs" />
+    <Compile Include="Assets\Fantasy Adventure Environment\Scripts\Editor\TreeBranchShaderGUI.cs" />
+    <Compile Include="Assets\Fantasy Adventure Environment\Scripts\Editor\TreeTrunkShaderGUI.cs" />
+    <Compile Include="Assets\Fantasy Adventure Environment\Scripts\Editor\WindControllerInspector.cs" />
+    <None Include="Assets\Fantasy Adventure Environment\Scripts\Editor\PigmentMapComposite.shader" />
     <Reference Include="UnityEditor.TestRunner">
       <HintPath>C:/Users/aramos/Documents/Unity Projects/Greenpath/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
     </Reference>

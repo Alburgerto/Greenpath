@@ -164,8 +164,16 @@
     <Compile Include="Assets\_Scripts\Inventory.cs" />
     <Compile Include="Assets\_Scripts\Recipe.cs" />
     <Compile Include="Assets\_Scripts\UITextPosition.cs" />
+    <Compile Include="Assets\Fantasy Adventure Environment\_DemoScenes\Source\FAE_DemoOrbitCamera.cs" />
+    <Compile Include="Assets\Fantasy Adventure Environment\Scripts\CliffAppearance.cs" />
+    <Compile Include="Assets\Fantasy Adventure Environment\Scripts\FoliageBender.cs" />
+    <Compile Include="Assets\Fantasy Adventure Environment\Scripts\PigmentMapGenerator.cs" />
+    <Compile Include="Assets\Fantasy Adventure Environment\Scripts\TerrainUVUtil.cs" />
+    <Compile Include="Assets\Fantasy Adventure Environment\Scripts\WindController.cs" />
+    <None Include="Assets\Fantasy Adventure Environment\Shaders\FAE_FogSheet.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\DepthOfField.shader" />
     <None Include="Assets\_AssetPacks\Packs\BirchPackVol1\Works For Fun.txt" />
+    <None Include="Assets\Fantasy Adventure Environment\Shaders\FAE_Foliage.shader" />
     <None Include="Assets\_AssetPacks\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\_AssetPacks\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\_AssetPacks\AdventureForge\Read me.txt" />
@@ -173,9 +181,11 @@
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\Fog.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Editor Resources\Monitors\ParadeRender.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\LutGen.shader" />
+    <None Include="Assets\Fantasy Adventure Environment\Shaders\VS_InstancedIndirect.cginc" />
     <None Include="Assets\_Shaders\WaterShader.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Editor Resources\Monitors\HistogramRender.shader" />
     <None Include="Assets\_AssetPacks\Standard Assets\Environment\Water (Basic)\DO_NOT_WORK_IN_VR.txt" />
+    <None Include="Assets\Fantasy Adventure Environment\Shaders\FAE_Water.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Editor Resources\UI\CurveBackground.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\ScreenSpaceReflection.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Utilities\CustomMotionTexture\Shaders\CustomMotionVectorTexture.shader" />
@@ -183,6 +193,8 @@
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
     <None Include="Assets\_AssetPacks\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\Tonemapping.cginc" />
+    <None Include="Assets\Fantasy Adventure Environment\Changelog.txt" />
+    <None Include="Assets\Fantasy Adventure Environment\_DemoScenes\Source\FAE_WaterfallFoam.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\Uber.shader" />
     <None Include="Assets\_AssetPacks\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
@@ -193,12 +205,15 @@
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\FXAA3.cginc" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\MotionBlur.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\AmbientOcclusion.shader" />
+    <None Include="Assets\Fantasy Adventure Environment\Shaders\FAE_TreeTrunk.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Bluenoise64\LICENSE.txt" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\BuiltinDebugViews.shader" />
     <None Include="Assets\_AssetPacks\Standard Assets\Environment\Water\DO_NOT_WORK_IN_VR.txt" />
     <None Include="Assets\_AssetPacks\Fantasy Forest Environment Free Sample\StandardNoCulling.shader" />
+    <None Include="Assets\Fantasy Adventure Environment\Shaders\FAE_TreeBillboard.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\Common.cginc" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Bluenoise64\COPYING.txt" />
+    <None Include="Assets\Fantasy Adventure Environment\Shaders\FAE_TreeBranch.shader" />
     <None Include="Assets\_AssetPacks\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\_AssetPacks\Standard Assets\Environment\Water (Basic)\Shaders\FXWaterBasic.shader" />
     <None Include="Assets\_AssetPacks\Standard Assets\Fonts\OpenSans\License!.txt" />
@@ -207,12 +222,15 @@
     <None Include="Assets\_AssetPacks\Mega Fantasy Props Pack\README.txt" />
     <None Include="Assets\_AssetPacks\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\_AssetPacks\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
+    <None Include="Assets\Fantasy Adventure Environment\Shaders\FAE_SunshaftParticle.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\Bloom.cginc" />
+    <None Include="Assets\Fantasy Adventure Environment\_DemoScenes\Source\_These assets are not officially included, only produced for the demo scene.txt" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\TAA.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\EyeHistogram.compute" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\TAA.cginc" />
     <None Include="Assets\_AssetPacks\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\EyeAdaptation.cginc" />
+    <None Include="Assets\Fantasy Adventure Environment\Shaders\FAE_Grass.shader" />
     <None Include="Assets\_AssetPacks\Standard Assets\Environment\Water\Water\Shaders\FXWaterPro.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\GrainGen.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\FXAA.shader" />
@@ -220,11 +238,14 @@
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\DiskKernels.cginc" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\DepthOfField.cginc" />
     <None Include="Assets\_AssetPacks\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+    <None Include="Assets\Fantasy Adventure Environment\Shaders\FAE_Cliff.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\ScreenSpaceRaytrace.cginc" />
     <None Include="Assets\_AssetPacks\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\Fantasy Adventure Environment\_DemoScenes\Source\FAE_Waterfall.shader" />
     <None Include="Assets\_AssetPacks\Clipboard\ReadMe\ReadMe.txt" />
     <None Include="Assets\_AssetPacks\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\Bloom.shader" />
+    <None Include="Assets\Fantasy Adventure Environment\PostProcessingAssets\Readme.txt" />
     <None Include="Assets\_AssetPacks\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\_AssetPacks\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
     <None Include="Assets\_AssetPacks\Samples\Terrain Tools\0.1.0-preview\Terrain Assets\ThirdPartyNotices.txt" />
@@ -238,9 +259,11 @@
     <None Include="Assets\_AssetPacks\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Advanced.shader" />
     <None Include="Assets\_AssetPacks\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\AmbientOcclusion.cginc" />
+    <None Include="Assets\Fantasy Adventure Environment\Shaders\FAE_Sunshaft.shader" />
     <None Include="Assets\_AssetPacks\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Editor Resources\Monitors\WaveformCompute.compute" />
     <None Include="Assets\_AssetPacks\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
+    <None Include="Assets\Fantasy Adventure Environment\Shaders\FAE_Cliff_Coverage.shader" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/aramos/Documents/Unity Projects/Greenpath/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
