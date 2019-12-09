@@ -15,8 +15,9 @@ public class Inventory : MonoBehaviour
     public TextMeshProUGUI m_availableQuantities;
     public TextMeshProUGUI m_slashes;
     public TextMeshProUGUI m_requiredQuantities;
+    public GameObject m_successText;
     public float m_fadeTime;
-
+    
     private bool m_textAnimating;
     private int m_currentRecipeIndex;
     private CanvasGroup m_canvasGroup;
@@ -92,6 +93,8 @@ public class Inventory : MonoBehaviour
             m_slashes.text += "/" + Environment.NewLine;
             m_requiredQuantities.text += m_currentRecipe.m_ingredientCount[i] + Environment.NewLine;
         }
+        Debug.Log(m_currentRecipe.m_cooked);
+        m_successText.SetActive(m_currentRecipe.m_cooked);
         StartCoroutine(FadeText(true));
     }
 
@@ -144,6 +147,7 @@ public class Inventory : MonoBehaviour
                 time += Time.deltaTime;
                 yield return null;
             }
+            m_canvasGroup.alpha = 1;
         }
         else // fade out
         {
@@ -153,15 +157,27 @@ public class Inventory : MonoBehaviour
                 time += Time.deltaTime;
                 yield return null;
             }
+            m_canvasGroup.alpha = 0;
             SetupRecipeGUI();
         }
         m_textAnimating = false;
     }
 
-    public IEnumerator CookRecipe()
+    public void CookRecipe()
     {
         Debug.Log("YESSS BEIBI HE COCINADO ALGO");
-        yield return null;
+
+        m_currentRecipe.m_cooked = true;
+        m_successText.SetActive(true);
+        Ingredient ingredient;
+        int ingredientQuantity;
+        for (int i = 0; i < m_currentRecipe.m_ingredients.Count; ++i)
+        {
+            ingredient = m_currentRecipe.m_ingredients[i];
+            ingredientQuantity = m_currentRecipe.m_ingredientCount[i];
+            m_inventory[ingredient.m_name] -= ingredientQuantity;
+        }
+        UpdateAvailableIngredients();
     }
 
     public void Cook()
@@ -173,7 +189,7 @@ public class Inventory : MonoBehaviour
         {
             ingredient = m_currentRecipe.m_ingredients[i];
             ingredientQuantity = m_currentRecipe.m_ingredientCount[i];
-            if (!(m_inventory.TryGetValue(ingredient.m_name, out int requiredQuantity) && requiredQuantity == ingredientQuantity))
+            if (!(m_inventory.TryGetValue(ingredient.m_name, out int requiredQuantity) && requiredQuantity >= ingredientQuantity))
             {
                 success = false;
             }
@@ -181,7 +197,7 @@ public class Inventory : MonoBehaviour
 
         if (success)
         {
-            StartCoroutine(CookRecipe());
+            CookRecipe();
         }
 
     }
