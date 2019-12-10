@@ -93,7 +93,6 @@ public class Inventory : MonoBehaviour
             m_slashes.text += "/" + Environment.NewLine;
             m_requiredQuantities.text += m_currentRecipe.m_ingredientCount[i] + Environment.NewLine;
         }
-        Debug.Log(m_currentRecipe.m_cooked);
         m_successText.SetActive(m_currentRecipe.m_cooked);
         StartCoroutine(FadeText(true));
     }
@@ -165,8 +164,6 @@ public class Inventory : MonoBehaviour
 
     public void CookRecipe()
     {
-        Debug.Log("YESSS BEIBI HE COCINADO ALGO");
-
         m_currentRecipe.m_cooked = true;
         m_successText.SetActive(true);
         Ingredient ingredient;
