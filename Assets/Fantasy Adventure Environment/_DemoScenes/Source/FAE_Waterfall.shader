@@ -4,10 +4,10 @@ Shader "FAE/Waterfall"
 {
 	Properties
 	{
-		[NoScaleOffset]_Shadermap("Shadermap", 2D) = "white" {}
+		[NoScaleOffset]_Shadermap("Shadermap", 2D) = "blue" {}
 		_Speed("Speed", Float) = 1
 		_Float1("Float 1", Range( 0 , 1)) = 0
-		[NoScaleOffset]_Diffuse("Diffuse", 2D) = "white" {}
+		[NoScaleOffset]_Diffuse("Diffuse", 2D) = "blue" {}
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 		[HideInInspector] __dirty( "", Int ) = 1
 	}
@@ -27,6 +27,7 @@ Shader "FAE/Waterfall"
 
 		uniform sampler2D _Diffuse;
 		uniform sampler2D _Shadermap;
+
 		uniform float _Speed;
 		uniform float _Float1;
 

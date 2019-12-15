@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 // Interactable objects need to add script (Interactable/Ingredient/etc) AND set layer to "Interactable"
+[RequireComponent(typeof(SphereCollider))]
 public abstract class Interactable : MonoBehaviour
 {
     public delegate void InteractingDelegate();
@@ -16,6 +17,8 @@ public abstract class Interactable : MonoBehaviour
     // Protected as children to this class need to execute this as well
     protected void Start()
     {
+        gameObject.layer = 8; // Interactable
+
         Interaction interactionMethod = GameObject.FindGameObjectWithTag("Player").GetComponent<Interaction>();
         InteractingDelegate interactingDelegate = new InteractingDelegate(interactionMethod.OnInteractionZone);
         InteractingDelegate exitInteractingDelegate = new InteractingDelegate(interactionMethod.OnInteractionZoneExit);
@@ -41,4 +44,5 @@ public abstract class Interactable : MonoBehaviour
 
     // Every interactable object will implement different actions to take when being interacted with
     public abstract void Interact();
+    
 }

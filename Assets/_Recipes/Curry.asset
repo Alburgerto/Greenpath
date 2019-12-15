@@ -17,7 +17,7 @@ MonoBehaviour:
 
     Beware.'
   m_ingredients:
-  - {fileID: 11400000, guid: 3fcab376b6c63df4a90ccc6cc378d61f, type: 2}
   - {fileID: 11400000, guid: 2353a79cb7f80754fa546b561d8afef0, type: 2}
+  - {fileID: 11400000, guid: 52dbb6375ae1b8b4f8616f286563abdf, type: 2}
   m_ingredientCount: 0100000001000000
   m_cooked: 0

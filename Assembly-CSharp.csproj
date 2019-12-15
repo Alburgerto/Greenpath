@@ -157,6 +157,9 @@
     <Compile Include="Assets\_AssetPacks\Standard Assets\Utility\WaypointCircuit.cs" />
     <Compile Include="Assets\_AssetPacks\Standard Assets\Utility\WaypointProgressTracker.cs" />
     <Compile Include="Assets\_Scripts\Bonfire.cs" />
+    <Compile Include="Assets\_Scripts\CameraDepthTexture.cs" />
+    <Compile Include="Assets\_Scripts\CollectibleIngredient.cs" />
+    <Compile Include="Assets\_Scripts\FishingSpot.cs" />
     <Compile Include="Assets\_Scripts\GameManager.cs" />
     <Compile Include="Assets\_Scripts\Ingredient.cs" />
     <Compile Include="Assets\_Scripts\Interactable.cs" />

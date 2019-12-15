@@ -2,25 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ingredient : Interactable
+[CreateAssetMenu()]
+public class Ingredient : ScriptableObject
 {
     public string m_name;
     public string m_description;
-    public Inventory m_inventory;
 
-    private new void Start()
+    public static implicit operator Ingredient(string l_name)
     {
-        base.Start();
-        m_inventory = m_inventory.GetComponent<Inventory>();
+        Ingredient ingredient = new Ingredient() { m_name = l_name };
+        return ingredient;
     }
-
-    public override void Interact()
-    {
-        m_inventory.AddIngredient(this);
-        GameObject.FindGameObjectWithTag("Player").GetComponent<Interaction>().OnInteractionZoneExit();
-        transform.position = new Vector3(1000, 1000, 1000);
-        //Destroy(gameObject);
-
-    }
-
 }

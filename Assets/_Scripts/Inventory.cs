@@ -131,7 +131,7 @@ public class Inventory : MonoBehaviour
         }
         UpdateAvailableIngredients();
 
-      //  Debug.Log($"{m_inventory[l_ingredient.m_name]} items of type {l_ingredient.m_name}");
+        Debug.Log($"{m_inventory[l_ingredient.m_name]} items of type {l_ingredient.m_name}");
     }
 
     public IEnumerator FadeText(bool m_fadeIn)
