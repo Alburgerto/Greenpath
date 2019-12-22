@@ -1,4 +1,21 @@
 Base path: 'C:/Program Files/Unity/Hub/Editor/2019.2.7f2/Editor/Data', plugins path 'C:/Program Files/Unity/Hub/Editor/2019.2.7f2/Editor/Data/PlaybackEngines'
 Cmd: initializeCompiler
-Cmd: compileSnippet
-  api=4 type=1 insize=731 outsize=574 kw=ETC1_EXTERNAL_ALPHA pd=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR ok=1
+Cmd: preprocess
+  error: 1 plat 21 at (277): Automatically setting target of LOD_FADE_CROSSFADE to 3.0
+  insize=53783 outsize=40343 ok=1
+Cmd: preprocess
+  insize=26160 outsize=19854 ok=1
+Cmd: preprocess
+  insize=19179 outsize=13920 ok=1
+Cmd: preprocess
+  error: 1 plat 21 at (30): Automatically setting target of LOD_FADE_CROSSFADE to 3.0
+  insize=14273 outsize=12613 ok=1
+Cmd: preprocess
+  error: 1 plat 21 at (37): Automatically setting target of LOD_FADE_CROSSFADE to 3.0
+  insize=28786 outsize=24553 ok=1
+Cmd: preprocess
+  error: 1 plat 21 at (27): Automatically setting target of LOD_FADE_CROSSFADE to 3.0
+  insize=11574 outsize=10402 ok=1
+Cmd: preprocess
+  error: 1 plat 21 at (39): Automatically setting target of LOD_FADE_CROSSFADE to 3.0
+  insize=32588 outsize=27060 ok=1

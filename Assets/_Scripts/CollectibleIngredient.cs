@@ -6,6 +6,7 @@ public class CollectibleIngredient : Interactable
 {
     public Ingredient m_ingredient;
     public Inventory m_inventory;
+    public CollectedItemUI m_collectedItemUI;
 
     private new void Start()
     {
@@ -20,6 +21,7 @@ public class CollectibleIngredient : Interactable
         transform.position = new Vector3(1000, 1000, 1000);
         //Destroy(gameObject);
 
+        m_collectedItemUI.SetText(m_ingredient.m_name);
     }
 
 }
