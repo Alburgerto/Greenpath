@@ -243,6 +243,7 @@
     <None Include="Assets\_AssetPacks\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\Fantasy Adventure Environment\Shaders\FAE_Cliff.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\ScreenSpaceRaytrace.cginc" />
+    <None Include="Assets\50FishIcons\Reference.txt" />
     <None Include="Assets\_AssetPacks\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\Fantasy Adventure Environment\_DemoScenes\Source\FAE_Waterfall.shader" />
     <None Include="Assets\_AssetPacks\Clipboard\ReadMe\ReadMe.txt" />
