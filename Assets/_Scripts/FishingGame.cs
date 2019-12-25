@@ -7,50 +7,101 @@ public class FishingGame : MonoBehaviour
 {
     public enum FishingState { PLAYING, WON, LOST }
 
-    public Image m_fill;
     public float m_sliderSpeed;
     public string[] m_fishList;
-    public Inventory m_inventory;
     public float m_fadeTime;
-    public CollectedItemUI m_collectedItemUI;
     public float m_playerSpeed;
+    public float m_fishSpeed;
+    public float m_fishSpeedOffset;
+    public float m_minFishTimeInverval;
+    public float m_maxFishTimeInverval;
+    public UnityStandardAssets.Characters.FirstPerson.FirstPersonController m_fpsController;
+    public Image m_fill;
+    public Inventory m_inventory;
+    public CollectedItemUI m_collectedItemUI;
+    public GameObject m_fishingPanel;
+    public Transform m_topAABB;
+    public Transform m_bottomAABB;
+    public Transform m_rightAABB;
+    public Transform m_leftAABB;
 
+    private float m_fishMaxY;
+    private float m_fishMinY;
+    private float m_fishMaxX;
+    private float m_fishMinX;
+    private RectTransform m_fishTransform;
+    private FishingPlayer m_playerScript;
+    private Rigidbody2D m_playerRB;
     private Transform m_player;
     private Transform m_fish;
     private Slider m_slider;
     private bool m_barFilling;
     private FishingState m_state;
-
-    // Start is called before the first frame update
+    
     void Start()
     {
-        m_player = transform.Find("Player");
-        m_fish = transform.Find("Fish");
-        m_slider = transform.Find("Slider").GetComponent<Slider>();
-        m_barFilling = m_player.GetComponent<Collider2D>().bounds.Intersects(m_fish.GetComponent<Collider2D>().bounds);
-        m_state = FishingState.PLAYING;
+        Initialize();
+    }
+    
+    void Update()
+    {
+        if (m_state == FishingState.PLAYING)
+        {
+        //    FillBar();
+            CheckWinLoseCondition();
+        }
     }
 
-    private void OnEnable()
+    private void FixedUpdate()
     {
+        if (m_state == FishingState.PLAYING)
+        {
+            PlayerMovement();
+        }
+    }
+
+    public void Initialize()
+    {
+        m_player = transform.Find("Player");
+        m_playerRB = m_player.GetComponent<Rigidbody2D>();
+        m_playerScript = m_player.GetComponent<FishingPlayer>();
+        m_fish = transform.Find("Fish");
+        m_fishTransform = m_fish.GetComponent<RectTransform>();
+        m_slider = transform.Find("Slider").GetComponent<Slider>();
+        m_barFilling = m_player.GetComponent<Collider2D>().bounds.Intersects(m_fish.GetComponent<Collider2D>().bounds);
+
+        m_fishMaxY = m_topAABB.position.y - m_fishTransform.sizeDelta.y / 2;
+        m_fishMinY = m_bottomAABB.position.y + m_fishTransform.sizeDelta.y / 2;
+        m_fishMaxX = m_rightAABB.position.x - m_fishTransform.sizeDelta.x / 2;
+        m_fishMinX = m_leftAABB.position.x + m_fishTransform.sizeDelta.x / 2;
+
+        m_state = FishingState.PLAYING;
+        m_slider.value = 0.25f;
+        m_fpsController.enabled = false;
         StartCoroutine(FadePanel(true));
     }
 
-    // Update is called once per frame
-    void Update()
+    private void PlayerMovement()
     {
-        FishInput();
-        FillBar();
-        CheckWinLoseCondition();
-    }
+        Vector2 movement = new Vector2
+        {
+            x = Input.GetAxisRaw("Horizontal"),
+            y = Input.GetAxisRaw("Vertical")
+        };
 
-    private void FishInput()
-    {
-        Vector2 movement = new Vector2();
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
-        Vector2 newPosition = new Vector2(m_player.position.x + movement.x * m_playerSpeed, m_player.position.y + movement.y * m_playerSpeed);
-        m_player.position = newPosition;
+        Vector2 velocity = m_playerRB.velocity;
+        if (m_player.position.y + m_playerScript.Height/2 >= m_topAABB.position.y ||
+            m_player.position.y - m_playerScript.Height/2 <= m_bottomAABB.position.y)
+        {
+            m_playerRB.velocity = new Vector2(velocity.x * 0.8f, velocity.y * -0.8f);
+        }
+
+        if (m_player.position.x + m_playerScript.Width/2 >= m_rightAABB.position.x ||
+                 m_player.position.x - m_playerScript.Width/2 <= m_leftAABB.position.x)
+        {
+            m_playerRB.velocity = new Vector2(velocity.x * -0.8f, velocity.y * 0.8f);
+        }
+        m_playerRB.AddForce(movement * m_playerSpeed);
     }
 
     private void FillBar()
@@ -90,7 +141,7 @@ public class FishingGame : MonoBehaviour
     {
         if (m_slider.value == 0)
         {
-            Debug.Log("I LOST! FUCK!");
+            Debug.Log("I LOST!");
             m_state = FishingState.LOST;
 
             StopAllCoroutines();
@@ -103,6 +154,35 @@ public class FishingGame : MonoBehaviour
 
             StopAllCoroutines();
             StartCoroutine(FadePanel(false));
+        }
+    }
+
+    private IEnumerator FishMovement()
+    {
+        float timeBetweenMovement;
+        float timeMovement;
+        float speedOffset;
+        float elapsed;
+
+        while (m_state == FishingState.PLAYING)
+        {
+            timeBetweenMovement = Random.Range(m_minFishTimeInverval, m_maxFishTimeInverval);
+            yield return new WaitForSeconds(timeBetweenMovement);
+            elapsed = 0;
+            speedOffset = Random.Range(-m_fishSpeedOffset, m_fishSpeedOffset);
+            Vector2 nextPosition = new Vector2
+            {
+                x = Random.Range(m_fishMinX, m_fishMaxX),
+                y = Random.Range(m_fishMinY, m_fishMaxY)
+            };
+            
+            timeMovement = Random.Range(timeBetweenMovement - 1, timeBetweenMovement);
+            while (elapsed < timeMovement)
+            {
+                m_fish.position = Vector2.Lerp(m_fish.position, nextPosition, (m_fishSpeed + speedOffset) * elapsed/timeMovement);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
         }
     }
 
@@ -127,6 +207,7 @@ public class FishingGame : MonoBehaviour
                 time += Time.deltaTime;
                 yield return null;
             }
+            StartCoroutine(FishMovement());
         }
         else
         {
@@ -155,7 +236,12 @@ public class FishingGame : MonoBehaviour
                 time += Time.deltaTime;
                 yield return null;
             }
-            gameObject.SetActive(false);
+        }
+
+        if (m_state != FishingState.PLAYING)
+        {
+            m_fpsController.enabled = true;
+            m_fishingPanel.SetActive(false);
         }
     }
 

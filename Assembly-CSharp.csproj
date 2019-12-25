@@ -11,7 +11,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{4F8A346B-C145-216F-83C0-5EE2F7330487}</ProjectGuid>
+    <ProjectGuid>{1E0F3EA0-042C-88A1-263B-A7F64EDF122D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -272,43 +272,43 @@
     <None Include="Assets\_AssetPacks\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\_AssetPacks\Fantasy Adventure Environment\Shaders\FAE_Cliff_Coverage.shader" />
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>C:/Users/aramos/Documents/Unity Projects/Greenpath/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>C:/Users/aramos/Documents/Unity Projects/Riverside/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TerrainTools">
-      <HintPath>C:/Users/aramos/Documents/Unity Projects/Greenpath/Library/ScriptAssemblies/Unity.TerrainTools.dll</HintPath>
+      <HintPath>C:/Users/aramos/Documents/Unity Projects/Riverside/Library/ScriptAssemblies/Unity.TerrainTools.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>C:/Users/aramos/Documents/Unity Projects/Greenpath/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>C:/Users/aramos/Documents/Unity Projects/Riverside/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/aramos/Documents/Unity Projects/Greenpath/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/aramos/Documents/Unity Projects/Riverside/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>C:/Users/aramos/Documents/Unity Projects/Greenpath/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>C:/Users/aramos/Documents/Unity Projects/Riverside/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>C:/Users/aramos/Documents/Unity Projects/Greenpath/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>C:/Users/aramos/Documents/Unity Projects/Riverside/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>C:/Users/aramos/Documents/Unity Projects/Greenpath/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>C:/Users/aramos/Documents/Unity Projects/Riverside/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Postprocessing.Editor">
-      <HintPath>C:/Users/aramos/Documents/Unity Projects/Greenpath/Library/ScriptAssemblies/Unity.Postprocessing.Editor.dll</HintPath>
+      <HintPath>C:/Users/aramos/Documents/Unity Projects/Riverside/Library/ScriptAssemblies/Unity.Postprocessing.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>C:/Users/aramos/Documents/Unity Projects/Greenpath/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>C:/Users/aramos/Documents/Unity Projects/Riverside/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Postprocessing.Runtime">
-      <HintPath>C:/Users/aramos/Documents/Unity Projects/Greenpath/Library/ScriptAssemblies/Unity.Postprocessing.Runtime.dll</HintPath>
+      <HintPath>C:/Users/aramos/Documents/Unity Projects/Riverside/Library/ScriptAssemblies/Unity.Postprocessing.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/aramos/Documents/Unity Projects/Greenpath/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/aramos/Documents/Unity Projects/Riverside/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TerrainTools.Editor">
-      <HintPath>C:/Users/aramos/Documents/Unity Projects/Greenpath/Library/ScriptAssemblies/Unity.TerrainTools.Editor.dll</HintPath>
+      <HintPath>C:/Users/aramos/Documents/Unity Projects/Riverside/Library/ScriptAssemblies/Unity.TerrainTools.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>C:/Users/aramos/Documents/Unity Projects/Greenpath/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>C:/Users/aramos/Documents/Unity Projects/Riverside/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.7f2/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
