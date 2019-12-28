@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class CollectedItemUI : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class CollectedItemUI : MonoBehaviour
 
     private IEnumerator InitializePanel(string l_text)
     {
-        m_text.text = l_text;
+        m_text.text = $"You found a {l_text}!";
 
         // fade in
         float time = 0;

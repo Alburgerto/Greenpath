@@ -13,6 +13,7 @@ public class FishingGame : MonoBehaviour
     public float m_playerSpeed;
     public float m_playerDeceleration;
     public float m_fishSpeed;
+    public float m_wiggleIntensity;
     public float m_fishSpeedOffset;
     public float m_minFishTimeInverval;
     public float m_maxFishTimeInverval;
@@ -57,10 +58,8 @@ public class FishingGame : MonoBehaviour
 
     public void Initialize()
     {
-        m_fishMaxY = m_topAABB.position.y - m_fishTransform.sizeDelta.y / 2;
-        m_fishMinY = m_bottomAABB.position.y + m_fishTransform.sizeDelta.y / 2;
-        m_fishMaxX = m_rightAABB.position.x - m_fishTransform.sizeDelta.x / 2;
-        m_fishMinX = m_leftAABB.position.x + m_fishTransform.sizeDelta.x / 2;
+        m_fish.position = new Vector2(0, 0);
+        m_fish.rotation = Quaternion.identity;
 
         m_state = FishingState.PLAYING;
         m_slider.value = 0.25f;
@@ -87,7 +86,7 @@ public class FishingGame : MonoBehaviour
 
     private void PlayerMovement()
     {
-        Vector3 movement = new Vector3
+        Vector2 movement = new Vector2
         {
             x = Input.GetAxisRaw("Horizontal"),
             y = Input.GetAxisRaw("Vertical")
@@ -95,28 +94,28 @@ public class FishingGame : MonoBehaviour
         if (m_playerRB.velocity.x == 0 && m_playerRB.velocity.y == 0 && movement.x == 0 && movement.y == 0) { return; }
 
         float pixelOffset = 2;
-        Vector3 velocity = m_playerRB.velocity;
-        Vector3 newPosition = m_player.position;
+        Vector2 velocity = m_playerRB.velocity;
+        Vector2 newPosition = m_player.position;
         if (m_player.position.y + m_playerScript.Height/2 >= m_topAABB.position.y)
         {
             newPosition.y = m_topAABB.position.y - m_playerScript.Height / 2 - pixelOffset;
-            m_playerRB.velocity = new Vector3(velocity.x * m_playerDeceleration, velocity.y * -m_playerDeceleration);
+            m_playerRB.velocity = new Vector2(velocity.x * m_playerDeceleration, velocity.y * -m_playerDeceleration);
         }
         else if (m_player.position.y - m_playerScript.Height / 2 <= m_bottomAABB.position.y)
         {
             newPosition.y = m_bottomAABB.position.y + m_playerScript.Height / 2 + pixelOffset;
-            m_playerRB.velocity = new Vector3(velocity.x * m_playerDeceleration, velocity.y * -m_playerDeceleration);
+            m_playerRB.velocity = new Vector2(velocity.x * m_playerDeceleration, velocity.y * -m_playerDeceleration);
         }
 
         if (m_player.position.x + m_playerScript.Width/2 >= m_rightAABB.position.x)
         {
             newPosition.x = m_rightAABB.position.x - m_playerScript.Width / 2 - pixelOffset;
-            m_playerRB.velocity = new Vector3(velocity.x * -m_playerDeceleration, velocity.y * m_playerDeceleration);
+            m_playerRB.velocity = new Vector2(velocity.x * -m_playerDeceleration, velocity.y * m_playerDeceleration);
         }
         else if (m_player.position.x - m_playerScript.Width / 2 <= m_leftAABB.position.x)
         {
             newPosition.x = m_leftAABB.position.x + m_playerScript.Width / 2 + pixelOffset;
-            m_playerRB.velocity = new Vector3(velocity.x * -m_playerDeceleration, velocity.y * m_playerDeceleration);
+            m_playerRB.velocity = new Vector2(velocity.x * -m_playerDeceleration, velocity.y * m_playerDeceleration);
         }
 
         m_player.position = newPosition;
@@ -184,24 +183,46 @@ public class FishingGame : MonoBehaviour
 
         while (m_state == FishingState.PLAYING)
         {
-            timeBetweenMovement = Random.Range(m_minFishTimeInverval, m_maxFishTimeInverval);
-            yield return new WaitForSeconds(timeBetweenMovement);
+            timeBetweenMovement = Random.Range(m_minFishTimeInverval, m_maxFishTimeInverval); // Time it remains on the same spot until it starts moving
             elapsed = 0;
             speedOffset = Random.Range(-m_fishSpeedOffset, m_fishSpeedOffset);
-            Vector3 nextPosition = new Vector3
+            Vector2 nextPosition = new Vector2
             {
                 x = Random.Range(m_fishMinX, m_fishMaxX),
                 y = Random.Range(m_fishMinY, m_fishMaxY)
             };
-            Debug.Log(nextPosition);
-            timeMovement = Random.Range(timeBetweenMovement - 1, timeBetweenMovement);
+            timeMovement = Random.Range(timeBetweenMovement - m_minFishTimeInverval, timeBetweenMovement); // Time it takes to move from A to B
             while (elapsed < timeMovement)
             {
-                m_fish.position = Vector3.Lerp(m_fish.position, nextPosition, (m_fishSpeed + speedOffset) * elapsed/timeMovement);
+                m_fish.position = Vector2.Lerp(m_fish.position, nextPosition, (m_fishSpeed + speedOffset) * elapsed/timeMovement);
                 elapsed += Time.deltaTime;
                 yield return null;
             }
             m_fish.position = nextPosition;
+            yield return new WaitForSeconds(timeBetweenMovement);
+        }
+    }
+
+    private IEnumerator FishWiggle()
+    {
+        while (m_state == FishingState.PLAYING)
+        {
+            Vector2 originalPosition = m_fish.position;
+            float timeBetweenWiggle = Random.Range(0, 0.05f);
+            float pixelDisplacementX = Random.Range(-m_wiggleIntensity, m_wiggleIntensity);
+            float pixelDisplacementY = Random.Range(-m_wiggleIntensity, m_wiggleIntensity);
+
+            originalPosition.x += pixelDisplacementX;
+            originalPosition.y += pixelDisplacementY;
+            m_fish.position = originalPosition;
+
+            yield return new WaitForSeconds(timeBetweenWiggle);
+
+            // ROTATION
+            float rotationOffset = Random.Range(-0.01f, 0.01f);
+            Quaternion fishRotation = m_fish.rotation;
+            fishRotation.z += rotationOffset;
+            m_fish.rotation = fishRotation;
         }
     }
 
@@ -225,11 +246,14 @@ public class FishingGame : MonoBehaviour
                 yield return null;
             }
             m_fishingPanel.transform.localScale = new Vector3(1, 1, 1);
+
+            SetAABBLimits();
             StartCoroutine(FishMovement());
+            StartCoroutine(FishWiggle());
         }
         else
         {
-            m_playerRB.velocity = new Vector3(0, 0);
+            m_playerRB.velocity = new Vector2(0, 0);
 
             if (m_state == FishingState.WON)
             {
@@ -263,6 +287,15 @@ public class FishingGame : MonoBehaviour
             m_state = FishingState.NOT_PLAYING;
         //    m_fishingPanel.SetActive(false);
         }
+    }
+
+    // Can't do it at Startup because of scale issues
+    private void SetAABBLimits()
+    {
+        m_fishMaxY = m_topAABB.position.y - m_fishTransform.sizeDelta.y / 2;
+        m_fishMinY = m_bottomAABB.position.y + m_fishTransform.sizeDelta.y / 2;
+        m_fishMaxX = m_rightAABB.position.x - m_fishTransform.sizeDelta.x / 2;
+        m_fishMinX = m_leftAABB.position.x + m_fishTransform.sizeDelta.x / 2;
     }
 
     public void PlayerColliding(bool l_colliding)
