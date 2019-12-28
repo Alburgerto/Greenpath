@@ -14,10 +14,10 @@ public class FishingSpot : Interactable
 
     public override void Interact()
     {
-        if (!m_fishingGame.activeSelf)
-        {
-            m_fishingGame.SetActive(true);
+        //if (!m_fishingGame.activeSelf)
+        //{
+        //    m_fishingGame.SetActive(true);
             m_fishingGame.GetComponentInChildren<FishingGame>().Initialize();
-        }
+        //}
     }
 }

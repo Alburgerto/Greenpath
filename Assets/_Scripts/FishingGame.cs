@@ -5,12 +5,13 @@ using UnityEngine.UI;
 
 public class FishingGame : MonoBehaviour
 {
-    public enum FishingState { PLAYING, WON, LOST }
+    public enum FishingState { NOT_PLAYING, PLAYING, WON, LOST }
 
     public float m_sliderSpeed;
     public string[] m_fishList;
     public float m_fadeTime;
     public float m_playerSpeed;
+    public float m_playerDeceleration;
     public float m_fishSpeed;
     public float m_fishSpeedOffset;
     public float m_minFishTimeInverval;
@@ -32,6 +33,7 @@ public class FishingGame : MonoBehaviour
     private RectTransform m_fishTransform;
     private FishingPlayer m_playerScript;
     private Rigidbody2D m_playerRB;
+    private Image m_playerImage;
     private Transform m_player;
     private Transform m_fish;
     private Slider m_slider;
@@ -40,14 +42,37 @@ public class FishingGame : MonoBehaviour
     
     void Start()
     {
-        Initialize();
+        m_player = transform.Find("Player");
+        m_playerImage = m_player.GetComponent<Image>();
+        m_playerRB = m_player.GetComponent<Rigidbody2D>();
+        m_playerScript = m_player.GetComponent<FishingPlayer>();
+        m_fish = transform.Find("Fish");
+        m_fishTransform = m_fish.GetComponent<RectTransform>();
+        m_slider = transform.Find("Slider").GetComponent<Slider>();
+        m_barFilling = m_player.GetComponent<Collider2D>().bounds.Intersects(m_fish.GetComponent<Collider2D>().bounds);
+
+        m_state = FishingState.NOT_PLAYING;
+        Initialize(); // DELETE
+    }
+
+    public void Initialize()
+    {
+        m_fishMaxY = m_topAABB.position.y - m_fishTransform.sizeDelta.y / 2;
+        m_fishMinY = m_bottomAABB.position.y + m_fishTransform.sizeDelta.y / 2;
+        m_fishMaxX = m_rightAABB.position.x - m_fishTransform.sizeDelta.x / 2;
+        m_fishMinX = m_leftAABB.position.x + m_fishTransform.sizeDelta.x / 2;
+
+        m_state = FishingState.PLAYING;
+        m_slider.value = 0.25f;
+        m_fpsController.enabled = false;
+        StartCoroutine(FadePanel(true));
     }
     
     void Update()
     {
         if (m_state == FishingState.PLAYING)
         {
-        //    FillBar();
+            FillBar();
             CheckWinLoseCondition();
         }
     }
@@ -60,47 +85,41 @@ public class FishingGame : MonoBehaviour
         }
     }
 
-    public void Initialize()
-    {
-        m_player = transform.Find("Player");
-        m_playerRB = m_player.GetComponent<Rigidbody2D>();
-        m_playerScript = m_player.GetComponent<FishingPlayer>();
-        m_fish = transform.Find("Fish");
-        m_fishTransform = m_fish.GetComponent<RectTransform>();
-        m_slider = transform.Find("Slider").GetComponent<Slider>();
-        m_barFilling = m_player.GetComponent<Collider2D>().bounds.Intersects(m_fish.GetComponent<Collider2D>().bounds);
-
-        m_fishMaxY = m_topAABB.position.y - m_fishTransform.sizeDelta.y / 2;
-        m_fishMinY = m_bottomAABB.position.y + m_fishTransform.sizeDelta.y / 2;
-        m_fishMaxX = m_rightAABB.position.x - m_fishTransform.sizeDelta.x / 2;
-        m_fishMinX = m_leftAABB.position.x + m_fishTransform.sizeDelta.x / 2;
-
-        m_state = FishingState.PLAYING;
-        m_slider.value = 0.25f;
-        m_fpsController.enabled = false;
-        StartCoroutine(FadePanel(true));
-    }
-
     private void PlayerMovement()
     {
-        Vector2 movement = new Vector2
+        Vector3 movement = new Vector3
         {
             x = Input.GetAxisRaw("Horizontal"),
             y = Input.GetAxisRaw("Vertical")
         };
+        if (m_playerRB.velocity.x == 0 && m_playerRB.velocity.y == 0 && movement.x == 0 && movement.y == 0) { return; }
 
-        Vector2 velocity = m_playerRB.velocity;
-        if (m_player.position.y + m_playerScript.Height/2 >= m_topAABB.position.y ||
-            m_player.position.y - m_playerScript.Height/2 <= m_bottomAABB.position.y)
+        float pixelOffset = 2;
+        Vector3 velocity = m_playerRB.velocity;
+        Vector3 newPosition = m_player.position;
+        if (m_player.position.y + m_playerScript.Height/2 >= m_topAABB.position.y)
         {
-            m_playerRB.velocity = new Vector2(velocity.x * 0.8f, velocity.y * -0.8f);
+            newPosition.y = m_topAABB.position.y - m_playerScript.Height / 2 - pixelOffset;
+            m_playerRB.velocity = new Vector3(velocity.x * m_playerDeceleration, velocity.y * -m_playerDeceleration);
+        }
+        else if (m_player.position.y - m_playerScript.Height / 2 <= m_bottomAABB.position.y)
+        {
+            newPosition.y = m_bottomAABB.position.y + m_playerScript.Height / 2 + pixelOffset;
+            m_playerRB.velocity = new Vector3(velocity.x * m_playerDeceleration, velocity.y * -m_playerDeceleration);
         }
 
-        if (m_player.position.x + m_playerScript.Width/2 >= m_rightAABB.position.x ||
-                 m_player.position.x - m_playerScript.Width/2 <= m_leftAABB.position.x)
+        if (m_player.position.x + m_playerScript.Width/2 >= m_rightAABB.position.x)
         {
-            m_playerRB.velocity = new Vector2(velocity.x * -0.8f, velocity.y * 0.8f);
+            newPosition.x = m_rightAABB.position.x - m_playerScript.Width / 2 - pixelOffset;
+            m_playerRB.velocity = new Vector3(velocity.x * -m_playerDeceleration, velocity.y * m_playerDeceleration);
         }
+        else if (m_player.position.x - m_playerScript.Width / 2 <= m_leftAABB.position.x)
+        {
+            newPosition.x = m_leftAABB.position.x + m_playerScript.Width / 2 + pixelOffset;
+            m_playerRB.velocity = new Vector3(velocity.x * -m_playerDeceleration, velocity.y * m_playerDeceleration);
+        }
+
+        m_player.position = newPosition;
         m_playerRB.AddForce(movement * m_playerSpeed);
     }
 
@@ -134,7 +153,6 @@ public class FishingGame : MonoBehaviour
         }
         
         m_fill.color = Color.Lerp(m_fill.color, targetColor, Time.deltaTime * m_slider.value);
-        
     }
 
     private void CheckWinLoseCondition()
@@ -170,19 +188,20 @@ public class FishingGame : MonoBehaviour
             yield return new WaitForSeconds(timeBetweenMovement);
             elapsed = 0;
             speedOffset = Random.Range(-m_fishSpeedOffset, m_fishSpeedOffset);
-            Vector2 nextPosition = new Vector2
+            Vector3 nextPosition = new Vector3
             {
                 x = Random.Range(m_fishMinX, m_fishMaxX),
                 y = Random.Range(m_fishMinY, m_fishMaxY)
             };
-            
+            Debug.Log(nextPosition);
             timeMovement = Random.Range(timeBetweenMovement - 1, timeBetweenMovement);
             while (elapsed < timeMovement)
             {
-                m_fish.position = Vector2.Lerp(m_fish.position, nextPosition, (m_fishSpeed + speedOffset) * elapsed/timeMovement);
+                m_fish.position = Vector3.Lerp(m_fish.position, nextPosition, (m_fishSpeed + speedOffset) * elapsed/timeMovement);
                 elapsed += Time.deltaTime;
                 yield return null;
             }
+            m_fish.position = nextPosition;
         }
     }
 
@@ -196,21 +215,22 @@ public class FishingGame : MonoBehaviour
         {
             targetScale = new Vector3(1, 1, 1);
             currentScale = new Vector3(0, 0, 0);
-            transform.localScale = currentScale;
+            m_fishingPanel.transform.localScale = currentScale;
             while (time < m_fadeTime)
             {
-                currentScale.x = Mathf.Lerp(currentScale.x, targetScale.x, time / m_fadeTime);
-                currentScale.y = Mathf.Lerp(currentScale.y, targetScale.y, time / m_fadeTime);
-                currentScale.z = Mathf.Lerp(currentScale.z, targetScale.z, time / m_fadeTime);
-                transform.localScale = currentScale;
+                currentScale = Vector3.Lerp(currentScale, targetScale, time / m_fadeTime);
+                m_fishingPanel.transform.localScale = currentScale;
 
                 time += Time.deltaTime;
                 yield return null;
             }
+            m_fishingPanel.transform.localScale = new Vector3(1, 1, 1);
             StartCoroutine(FishMovement());
         }
         else
         {
+            m_playerRB.velocity = new Vector3(0, 0);
+
             if (m_state == FishingState.WON)
             {
                 int fishIndex = Random.Range(0, m_fishList.Length);
@@ -225,28 +245,32 @@ public class FishingGame : MonoBehaviour
 
             targetScale = new Vector3(0, 0, 0);
             currentScale = new Vector3(1, 1, 1);
-            transform.localScale = currentScale;
+            m_fishingPanel.transform.localScale = currentScale;
             while (time < m_fadeTime)
             {
-                currentScale.x = Mathf.Lerp(currentScale.x, targetScale.x, time / m_fadeTime);
-                currentScale.y = Mathf.Lerp(currentScale.y, targetScale.y, time / m_fadeTime);
-                currentScale.z = Mathf.Lerp(currentScale.z, targetScale.z, time / m_fadeTime);
-                transform.localScale = currentScale;
+                currentScale = Vector3.Lerp(currentScale, targetScale, time / m_fadeTime);
+                m_fishingPanel.transform.localScale = currentScale;
 
                 time += Time.deltaTime;
                 yield return null;
             }
+            m_fishingPanel.transform.localScale = new Vector3(0, 0, 0);
         }
 
         if (m_state != FishingState.PLAYING)
         {
             m_fpsController.enabled = true;
-            m_fishingPanel.SetActive(false);
+            m_state = FishingState.NOT_PLAYING;
+        //    m_fishingPanel.SetActive(false);
         }
     }
 
     public void PlayerColliding(bool l_colliding)
     {
+        Color color = m_playerImage.color;
+        color.a = l_colliding ? 0.95f : 0.7f;
+        m_playerImage.color = color;
+
         m_barFilling = l_colliding;
     }
 }

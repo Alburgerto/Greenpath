@@ -554,7 +554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.83137256}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.6862745}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -12288,6 +12288,7 @@ MonoBehaviour:
   - Trout
   m_fadeTime: 0.5
   m_playerSpeed: 750
+  m_playerDeceleration: 0.7
   m_fishSpeed: 5
   m_fishSpeedOffset: 1.5
   m_minFishTimeInverval: 0.75
@@ -12418,7 +12419,7 @@ RectTransform:
   m_GameObject: {fileID: 1967863017}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1954863624}
   m_Father: {fileID: 2052410362}
