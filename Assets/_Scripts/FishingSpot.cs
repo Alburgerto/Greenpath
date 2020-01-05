@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FishingSpot : Interactable
 {
-    public GameObject m_fishingGame;
+    public FishingGame m_fishingGame;
 
     new void Start()
     {
@@ -14,10 +14,9 @@ public class FishingSpot : Interactable
 
     public override void Interact()
     {
-        //if (!m_fishingGame.activeSelf)
-        //{
-        //    m_fishingGame.SetActive(true);
-            m_fishingGame.GetComponentInChildren<FishingGame>().Initialize();
-        //}
+        if (m_fishingGame.State == FishingGame.FishingState.NOT_PLAYING)
+        {
+            m_fishingGame.Initialize();
+        }
     }
 }

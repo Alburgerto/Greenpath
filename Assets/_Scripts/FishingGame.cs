@@ -26,11 +26,14 @@ public class FishingGame : MonoBehaviour
     public Transform m_bottomAABB;
     public Transform m_rightAABB;
     public Transform m_leftAABB;
+    public AudioClip m_winClip;
 
     private float m_fishMaxY;
     private float m_fishMinY;
     private float m_fishMaxX;
     private float m_fishMinX;
+    private bool m_barFilling;
+    private AudioSource m_audiosource;
     private RectTransform m_fishTransform;
     private FishingPlayer m_playerScript;
     private Rigidbody2D m_playerRB;
@@ -38,9 +41,8 @@ public class FishingGame : MonoBehaviour
     private Transform m_player;
     private Transform m_fish;
     private Slider m_slider;
-    private bool m_barFilling;
-    private FishingState m_state;
-    
+    public FishingState State { get; private set; }
+
     void Start()
     {
         m_player = transform.Find("Player");
@@ -51,9 +53,9 @@ public class FishingGame : MonoBehaviour
         m_fishTransform = m_fish.GetComponent<RectTransform>();
         m_slider = transform.Find("Slider").GetComponent<Slider>();
         m_barFilling = m_player.GetComponent<Collider2D>().bounds.Intersects(m_fish.GetComponent<Collider2D>().bounds);
+        m_audiosource = GetComponent<AudioSource>();
 
-        m_state = FishingState.NOT_PLAYING;
-        Initialize(); // DELETE
+        State = FishingState.NOT_PLAYING;
     }
 
     public void Initialize()
@@ -61,7 +63,7 @@ public class FishingGame : MonoBehaviour
         m_fish.position = new Vector2(0, 0);
         m_fish.rotation = Quaternion.identity;
 
-        m_state = FishingState.PLAYING;
+        State = FishingState.PLAYING;
         m_slider.value = 0.25f;
         m_fpsController.enabled = false;
         StartCoroutine(FadePanel(true));
@@ -69,7 +71,7 @@ public class FishingGame : MonoBehaviour
     
     void Update()
     {
-        if (m_state == FishingState.PLAYING)
+        if (State == FishingState.PLAYING)
         {
             FillBar();
             CheckWinLoseCondition();
@@ -78,7 +80,7 @@ public class FishingGame : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (m_state == FishingState.PLAYING)
+        if (State == FishingState.PLAYING)
         {
             PlayerMovement();
         }
@@ -159,7 +161,7 @@ public class FishingGame : MonoBehaviour
         if (m_slider.value == 0)
         {
             Debug.Log("I LOST!");
-            m_state = FishingState.LOST;
+            State = FishingState.LOST;
 
             StopAllCoroutines();
             StartCoroutine(FadePanel(false));
@@ -167,7 +169,8 @@ public class FishingGame : MonoBehaviour
         else if (m_slider.value == 1)
         {
             Debug.Log("I WIN!");
-            m_state = FishingState.WON;
+            State = FishingState.WON;
+            m_audiosource.PlayOneShot(m_winClip);
 
             StopAllCoroutines();
             StartCoroutine(FadePanel(false));
@@ -181,7 +184,7 @@ public class FishingGame : MonoBehaviour
         float speedOffset;
         float elapsed;
 
-        while (m_state == FishingState.PLAYING)
+        while (State == FishingState.PLAYING)
         {
             timeBetweenMovement = Random.Range(m_minFishTimeInverval, m_maxFishTimeInverval); // Time it remains on the same spot until it starts moving
             elapsed = 0;
@@ -205,7 +208,7 @@ public class FishingGame : MonoBehaviour
 
     private IEnumerator FishWiggle()
     {
-        while (m_state == FishingState.PLAYING)
+        while (State == FishingState.PLAYING)
         {
             Vector2 originalPosition = m_fish.position;
             float timeBetweenWiggle = Random.Range(0, 0.05f);
@@ -255,7 +258,7 @@ public class FishingGame : MonoBehaviour
         {
             m_playerRB.velocity = new Vector2(0, 0);
 
-            if (m_state == FishingState.WON)
+            if (State == FishingState.WON)
             {
                 int fishIndex = Random.Range(0, m_fishList.Length);
                 string fish = m_fishList[fishIndex];
@@ -281,10 +284,10 @@ public class FishingGame : MonoBehaviour
             m_fishingPanel.transform.localScale = new Vector3(0, 0, 0);
         }
 
-        if (m_state != FishingState.PLAYING)
+        if (State != FishingState.PLAYING)
         {
             m_fpsController.enabled = true;
-            m_state = FishingState.NOT_PLAYING;
+            State = FishingState.NOT_PLAYING;
         //    m_fishingPanel.SetActive(false);
         }
     }

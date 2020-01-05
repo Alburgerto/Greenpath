@@ -4,22 +4,19 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public enum GameState { Game, Fishing, Pause }
+    public GameObject m_pause;
 
-    public GameState m_state;
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        m_state = GameState.Game;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Application.Quit();
+            m_pause.SetActive(true);
         }
     }
 }

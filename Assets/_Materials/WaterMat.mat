@@ -45,7 +45,7 @@ Material:
     - _FoamMinDistance: 0.04
     - _MaxDeepness: 1
     - _SurfaceDistortionAmount: 0.27
-    - _SurfaceNoiseCutoff: 0.34
+    - _SurfaceNoiseCutoff: 0.82
     - _WaveCutoff: 0.58
     m_Colors:
     - _CausticsColor: {r: 0.45882356, g: 1, b: 0.9905617, a: 0}

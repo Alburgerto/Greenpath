@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 // List of ingredients as well as recipes
 public class Inventory : MonoBehaviour
 {
+    public float m_fadeTime;
     public List<Recipe> m_recipes = new List<Recipe>();
     public TextMeshProUGUI m_name;
     public TextMeshProUGUI m_description;
@@ -15,12 +16,20 @@ public class Inventory : MonoBehaviour
     public TextMeshProUGUI m_availableQuantities;
     public TextMeshProUGUI m_slashes;
     public TextMeshProUGUI m_requiredQuantities;
+    public GameObject m_victoryPanel;
     public GameObject m_successText;
-    public float m_fadeTime;
-    
+    public GameObject m_pausePanel;
+    public AudioClip m_turnPageClip;
+    public AudioClip m_recipeCompleteClip;
+    public AudioClip m_celebrationClip1;
+    public AudioClip m_celebrationClip2;
+    public AudioClip m_celebrationClip3;
+
     private bool m_textAnimating;
     private int m_currentRecipeIndex;
+    private AudioSource m_audioSource;
     private CanvasGroup m_canvasGroup;
+    private Animator m_clipboardAnimator;
     private Recipe m_currentRecipe { get { return m_recipes[m_currentRecipeIndex]; } }
     private Dictionary<string, int> m_inventory = new Dictionary<string, int>(); // All items (ingredients for now) collected and available to use
 
@@ -28,6 +37,8 @@ public class Inventory : MonoBehaviour
     {
         m_textAnimating = false;
         m_currentRecipeIndex = 0;
+        m_audioSource = GetComponent<AudioSource>();
+        m_clipboardAnimator = GetComponent<Animator>();
         m_canvasGroup = m_name.GetComponentInParent<CanvasGroup>();
     }
 
@@ -38,7 +49,7 @@ public class Inventory : MonoBehaviour
 
     private void Update()
     {
-        if (m_textAnimating) { return; }
+        if (m_textAnimating || !m_clipboardAnimator.GetBool("Showing") || m_pausePanel.activeSelf) { return; }
 
         int newRecipeIndex = m_currentRecipeIndex;
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.Mouse0) || Input.mouseScrollDelta.y < 0)
@@ -65,7 +76,7 @@ public class Inventory : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.F))
         {
-            Cook();
+            TryCook();
         }
 
         // If another recipe was selected
@@ -157,28 +168,16 @@ public class Inventory : MonoBehaviour
                 yield return null;
             }
             m_canvasGroup.alpha = 0;
+            m_audioSource.PlayOneShot(m_turnPageClip);
             SetupRecipeGUI();
         }
         m_textAnimating = false;
     }
 
-    public void CookRecipe()
+    public void TryCook()
     {
-        m_currentRecipe.m_cooked = true;
-        m_successText.SetActive(true);
-        Ingredient ingredient;
-        int ingredientQuantity;
-        for (int i = 0; i < m_currentRecipe.m_ingredients.Count; ++i)
-        {
-            ingredient = m_currentRecipe.m_ingredients[i];
-            ingredientQuantity = m_currentRecipe.m_ingredientCount[i];
-            m_inventory[ingredient.m_name] -= ingredientQuantity;
-        }
-        UpdateAvailableIngredients();
-    }
+        if (m_currentRecipe.m_cooked) { return; }
 
-    public void Cook()
-    {
         bool success = true;
         Ingredient ingredient;
         int ingredientQuantity;
@@ -196,7 +195,43 @@ public class Inventory : MonoBehaviour
         {
             CookRecipe();
         }
-
     }
-    
+
+    public void CookRecipe()
+    {
+        m_audioSource.PlayOneShot(m_recipeCompleteClip);
+        m_currentRecipe.m_cooked = true;
+        m_successText.SetActive(true);
+        Ingredient ingredient;
+        int ingredientQuantity;
+        for (int i = 0; i < m_currentRecipe.m_ingredients.Count; ++i)
+        {
+            ingredient = m_currentRecipe.m_ingredients[i];
+            ingredientQuantity = m_currentRecipe.m_ingredientCount[i];
+            m_inventory[ingredient.m_name] -= ingredientQuantity;
+        }
+        UpdateAvailableIngredients();
+
+        foreach (var recipe in m_recipes)
+        {
+            if (!recipe.m_cooked)
+            {
+                return;
+            }
+        }
+        StartCoroutine(AllRecipesCooked(1.8f));
+    }
+
+    public IEnumerator AllRecipesCooked(float l_time)
+    {
+        m_victoryPanel.SetActive(true);
+        m_audioSource.PlayOneShot(m_celebrationClip1);
+        yield return new WaitForSeconds(l_time);
+        m_audioSource.PlayOneShot(m_celebrationClip2);
+        yield return new WaitForSeconds(l_time);
+        m_audioSource.PlayOneShot(m_celebrationClip3);
+        yield return new WaitForSeconds(l_time + 3);
+        m_victoryPanel.SetActive(false);
+    }
+
 }

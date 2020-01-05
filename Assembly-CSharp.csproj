@@ -169,17 +169,21 @@
     <Compile Include="Assets\_Scripts\FishingGame.cs" />
     <Compile Include="Assets\_Scripts\FishingPlayer.cs" />
     <Compile Include="Assets\_Scripts\FishingSpot.cs" />
+    <Compile Include="Assets\_Scripts\FPSSound.cs" />
     <Compile Include="Assets\_Scripts\GameManager.cs" />
     <Compile Include="Assets\_Scripts\Ingredient.cs" />
     <Compile Include="Assets\_Scripts\Interactable.cs" />
     <Compile Include="Assets\_Scripts\Interaction.cs" />
     <Compile Include="Assets\_Scripts\Inventory.cs" />
+    <Compile Include="Assets\_Scripts\MenuButtons.cs" />
+    <Compile Include="Assets\_Scripts\PauseButtons.cs" />
     <Compile Include="Assets\_Scripts\Recipe.cs" />
     <Compile Include="Assets\_Scripts\UITextPosition.cs" />
     <None Include="Assets\_AssetPacks\Fantasy Adventure Environment\Shaders\FAE_FogSheet.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\DepthOfField.shader" />
     <None Include="Assets\_AssetPacks\Packs\BirchPackVol1\Works For Fun.txt" />
     <None Include="Assets\_AssetPacks\Fantasy Adventure Environment\Shaders\FAE_Foliage.shader" />
+    <None Include="Assets\_AssetPacks\plants\dd\AlphaTest-Bumped.shader" />
     <None Include="Assets\_AssetPacks\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\_AssetPacks\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\_AssetPacks\AdventureForge\Read me.txt" />
@@ -207,6 +211,7 @@
     <None Include="Assets\_AssetPacks\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Simple.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\Blit.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Editor Resources\Monitors\WaveformRender.shader" />
+    <None Include="Assets\_AssetPacks\Stykized Vegetation Pack Free\Readme.txt" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Editor Resources\Monitors\VectorscopeCompute.compute" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\FXAA3.cginc" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\MotionBlur.shader" />
@@ -267,6 +272,7 @@
     <None Include="Assets\_AssetPacks\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Resources\Shaders\AmbientOcclusion.cginc" />
     <None Include="Assets\_AssetPacks\Fantasy Adventure Environment\Shaders\FAE_Sunshaft.shader" />
+    <None Include="Assets\_AssetPacks\Cartoon_Farm_Crops\README.txt" />
     <None Include="Assets\_AssetPacks\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
     <None Include="Assets\_AssetPacks\GreenForest\PostProcessing\Editor Resources\Monitors\WaveformCompute.compute" />
     <None Include="Assets\_AssetPacks\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
